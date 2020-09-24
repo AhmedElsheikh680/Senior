@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    <!--  To Enable Annotation Over Classes | START -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.seniorsteps.senior.spring.dal"/><!-- For Component Scan -->
+    <!-- To Enable Annottion Over Classes | END -->
+    
+    <!-- To Solve Proxy Problem  | START -->
+    <aop:config proxy-target-class="true" />
+    <aop:aspectj-autoproxy />
+    <!-- To End Proxy Poblem | END -->
+    
+    <!-- To Enable Transaction Management | START -->
+    <tx:annotation-driven/>
+    <!-- To Enable Transaction Management | END -->
+    
+    <!-- DataSource Bean Which Is Responsable For Database Connection | START -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- DataSource Bean Which Is Responsable For Database Connection | END -->
+    <context:property-placeholder location="classpath:jdbc.properties"/> <!-- Import Database Properities File -->
+
+    <!-- SessionFactory Bean Which Is Responsable For Hibernate Session Management | START -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.seniorsteps.senior.spring.dal.entity.AdminUser</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Area</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Branch</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Category</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.City</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Consumer</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.ConsumerAddress</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.DeliveryArea</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Order</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.OrderItem</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Product</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.Provider</value>
+                <value>com.seniorsteps.senior.spring.dal.entity.ProviderUser</value>
+              
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                
+            </value>
+        </property>
+    </bean>
+    <!-- SessionFactory Bean  Which Is Responsable For Hibernate Session Management | END -->
+    
+    <!-- ExceptionTranslationPostProcessor Bean For Translating Hibernate Exceptions To Spring | START -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <!-- ExceptionTranslationPostProcessor Bean For Transating Hibernate Exceptions to Spring | END -->
+    
+    <!-- TransactionManager Bean For managing Hibernate Transactions | START -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- TransactionManager Bean For Managing Hibernate Transactions | END -->
+</beans>

@@ -1,0 +1,8 @@
+com\seniorsteps\senior\spring\bll\transformer\CityTransformer.class
+com\seniorsteps\senior\spring\bll\manager\impl\MenuManagerImpl.class
+com\seniorsteps\senior\spring\bll\manager\MenuManager.class
+com\seniorsteps\senior\spring\bll\manager\impl\LookupsManagerImpl.class
+com\seniorsteps\senior\spring\bll\transformer\AreaTransformer.class
+com\seniorsteps\senior\spring\bll\manager\lookupsmanager.class
+com\seniorsteps\senior\spring\bll\SeniorBLGateway.class
+com\seniorsteps\senior\spring\bll\transformer\CommonTransformer.class
